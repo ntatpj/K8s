@@ -1,0 +1,38 @@
+   Have run below commands during assignement.
+   
+   cd k8s-specifications/
+    ls
+    kubectl apply -f .
+    kubcectl get -all
+    kubcectl get all
+    kubectl get all
+    ll
+    kubectl get po
+	
+NAME                      READY   STATUS    RESTARTS   AGE
+db-b54cd94f4-gp2d2        1/1     Running   0          22m
+redis-868d64d78-dsgxr     1/1     Running   0          22m
+result-5d57b59f4b-rhh5n   1/1     Running   0          22m
+vote-94849dc97-7x8zk      1/1     Running   0          22m
+worker-dd46d7584-v69c6    1/1     Running   0          22m
+
+    kubectl delete po vote-94849dc97-7x8zk                        (Observed a new voter POD was created, the functionality of the system was not affected, the dunamic changes in votes was reflected)
+    kubectl delete po worker-dd46d7584-v69c6  					  (Observed a new worker POD was created, the functionality of the system was not affected, the dunamic changes in votes was reflected)
+    kubectl get po
+    kubectl delete po db-b54cd94f4-gp2d2  		(Observed a new DB POD was created, however the dynamic changes in the vote input was not reflected. I guess this was because there is DB isolation within the POD . DB input was from user and there was no redundancy for this information in the current database. Although a new POD was creted to store DB, howver the old DB cannot be retrived)
+	
+	NAME                      READY   STATUS    RESTARTS   AGE
+db-b54cd94f4-8mxd7        1/1     Running   0          105s
+
+															       (Basically all the delted PODs, be it vote, worker or db all were recreted on deletion)
+	
+	[root@ip-172-31-28-61 k8s-specifications]# kubectl get po
+NAME                      READY   STATUS    RESTARTS   AGE
+db-b54cd94f4-8mxd7        1/1     Running   0          105s
+redis-868d64d78-dsgxr     1/1     Running   0          28m
+result-5d57b59f4b-rhh5n   1/1     Running   0          28m
+vote-94849dc97-p5qpq      1/1     Running   0          5m51s
+worker-dd46d7584-lgqx2    1/1     Running   1          3m35s
+
+	
+    kubectl get po

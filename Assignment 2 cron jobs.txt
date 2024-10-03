@@ -1,0 +1,59 @@
+
+
+
+<Assignment2>
+
+[root@ip-172-31-28-61 04-controllers]# ls
+batch-job                                kubia-rc.yaml                           multi-completion-parallel-batch-job.yaml
+batch-job.yaml                           kubia-replicaset-matchexpressions.yaml  ssd-monitor
+cronjob.yaml                             kubia-replicaset.yaml                   ssd-monitor-daemonset.yaml
+kubia-liveness-probe-initial-delay.yaml  kubia-unhealthy                         time-limited-batch-job.yaml
+kubia-liveness-probe.yaml                multi-completion-batch-job.yaml
+[root@ip-172-31-28-61 04-controllers]# vi cronjob.yaml
+[root@ip-172-31-28-61 04-controllers]# kubectl apply -f cronjob.yaml
+cronjob.batch/batch-job-every-fifteen-minutes created
+[root@ip-172-31-28-61 04-controllers]# kubectl get jobs
+NAME                          COMPLETIONS   DURATION   AGE
+multi-completion-batch-job    5/5           6m16s      143m
+multi-completion-batch-job1   5/5           6m13s      43m
+multi-completion-batch-job2   5/5           6m14s      21m
+[root@ip-172-31-28-61 04-controllers]# kubectl get po
+NAME                                READY   STATUS      RESTARTS   AGE
+kubia-manual                        1/1     Running     0          2d16h
+mangz-ngnix                         1/1     Running     0          4d23h
+multi-completion-batch-job-27zj8    0/1     Completed   0          141m
+multi-completion-batch-job-96s9m    0/1     Completed   0          143m
+multi-completion-batch-job-hhzkn    0/1     Completed   0          139m
+multi-completion-batch-job-rm9qw    0/1     Completed   0          143m
+multi-completion-batch-job-xf68n    0/1     Completed   0          141m
+multi-completion-batch-job1-b54vz   0/1     Completed   0          43m
+multi-completion-batch-job1-lwmxx   0/1     Completed   0          41m
+multi-completion-batch-job1-n9t7s   0/1     Completed   0          41m
+multi-completion-batch-job1-v858n   0/1     Completed   0          39m
+multi-completion-batch-job1-w4m25   0/1     Completed   0          43m
+multi-completion-batch-job2-dwcxf   0/1     Completed   0          19m
+multi-completion-batch-job2-mvttl   0/1     Completed   0          22m
+multi-completion-batch-job2-vstj5   0/1     Completed   0          19m
+multi-completion-batch-job2-vxv58   0/1     Completed   0          22m
+multi-completion-batch-job2-wnzcr   0/1     Completed   0          17m
+neha-nginx                          1/1     Running     0          3d4h
+[root@ip-172-31-28-61 04-controllers]# kubectl get jobs
+NAME                          COMPLETIONS   DURATION   AGE
+multi-completion-batch-job    5/5           6m16s      143m
+multi-completion-batch-job1   5/5           6m13s      43m
+multi-completion-batch-job2   5/5           6m14s      22m
+[root@ip-172-31-28-61 04-controllers]# kubectl get jobs
+NAME                                         COMPLETIONS   DURATION   AGE
+batch-job-every-fifteen-minutes-1656847800   1/1           2m5s       9m37s
+multi-completion-batch-job                   5/5           6m16s      161m
+multi-completion-batch-job1                  5/5           6m13s      61m
+multi-completion-batch-job2                  5/5           6m14s      40m
+[root@ip-172-31-28-61 04-controllers]#
+
+
+
+There is no option to stop the CRON JOB, unless we delete the CRON JOB.
+
+
+CRON works on some frequency of time which the user decides. Howver the parallel JOB will start running the moment when started.
+

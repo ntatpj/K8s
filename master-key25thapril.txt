@@ -1,0 +1,73 @@
+sudo kubeadm init --pod-network-cidr=192.168.0.0/16 --ignore-preflight-errors=NumCPU
+
+[root@ip-172-31-32-228 ~]# systemctl status kubectl
+Unit kubectl.service could not be found.
+[root@ip-172-31-32-228 ~]# kubectl get pods -o wide
+NAME   READY   STATUS    RESTARTS   AGE    IP       NODE     NOMINATED NODE   READINESS GATES
+neha   0/1     Pending   0          116s   <none>   <none>   <none>           <none>
+[root@ip-172-31-32-228 ~]# kubectl get pods -o wide
+NAME   READY   STATUS    RESTARTS   AGE     IP       NODE     NOMINATED NODE   READINESS GATES
+neha   0/1     Pending   0          2m23s   <none>   <none>   <none>           <none>
+[root@ip-172-31-32-228 ~]# kubectl descrive po neha
+Error: unknown command "descrive" for "kubectl"
+
+Did you mean this?
+        describe
+
+Run 'kubectl --help' for usage.
+[root@ip-172-31-32-228 ~]# kubectl descrive po neha
+Error: unknown command "descrive" for "kubectl"
+
+Did you mean this?
+        describe
+
+Run 'kubectl --help' for usage.
+[root@ip-172-31-32-228 ~]# kubectl describe po neha
+Name:         neha
+Namespace:    default
+Priority:     0
+Node:         <none>
+Labels:       run=neha
+Annotations:  <none>
+Status:       Pending
+IP:
+IPs:          <none>
+Containers:
+  neha:
+    Image:        nginx
+    Port:         <none>
+    Host Port:    <none>
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-zq64w (ro)
+Conditions:
+  Type           Status
+  PodScheduled   False
+Volumes:
+  default-token-zq64w:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-zq64w
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:
+  Type     Reason            Age        From               Message
+  ----     ------            ----       ----               -------
+  Warning  FailedScheduling  <unknown>  default-scheduler  0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate.
+  Warning  FailedScheduling  <unknown>  default-scheduler  0/1 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate.
+[root@ip-172-31-32-228 ~]# kubectl get pods --all-namespaces
+NAMESPACE     NAME                                                                  READY   STATUS    RESTARTS   AGE
+default       neha                                                                  0/1     Pending   0          5m54s
+kube-system   calico-etcd-kn8sc                                                     1/1     Running   1          4h57m
+kube-system   calico-kube-controllers-7997dc8d7b-v8d2h                              1/1     Running   2          4h58m
+kube-system   calico-node-289fq                                                     2/2     Running   5          4h58m
+kube-system   coredns-66bff467f8-5c9dl                                              1/1     Running   1          4h59m
+kube-system   coredns-66bff467f8-fr4nw                                              1/1     Running   1          4h59m
+kube-system   etcd-ip-172-31-32-228.us-east-2.compute.internal                      1/1     Running   1          5h
+kube-system   kube-apiserver-ip-172-31-32-228.us-east-2.compute.internal            1/1     Running   1          5h
+kube-system   kube-controller-manager-ip-172-31-32-228.us-east-2.compute.internal   1/1     Running   1          5h
+kube-system   kube-proxy-qmzss                                                      1/1     Running   1          4h59m
+kube-system   kube-scheduler-ip-172-31-32-228.us-east-2.compute.internal            1/1     Running   1          5h
+[root@ip-172-31-32-228 ~]# kubectl get pods --all-namespaces
